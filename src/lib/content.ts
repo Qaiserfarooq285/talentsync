@@ -16,7 +16,7 @@ export const nav = [
 
 export const stats = [
   { value: "10,000+", label: "Manpower Supplied" },
-  { value: "600+", label: "Operators Deployed" },
+  { value: "20+", label: "Satisfied Clients" },
   { value: "19", label: "Target Countries" },
   { value: "5+", label: "Years' Experience" },
 ];

@@ -26,6 +26,10 @@ export default function CountUp({
     const el = ref.current;
     if (!el || reducedMotion) return;
 
+    const finalValue = `${number.toLocaleString("en-US")}${suffix}`;
+    let frameId: number | undefined;
+    let settleId: ReturnType<typeof setTimeout> | undefined;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting || startedRef.current) return;
@@ -37,17 +41,27 @@ export default function CountUp({
           const eased = 1 - Math.pow(1 - progress, 3);
           const current = Math.round(number * eased);
           setDisplay(`${current.toLocaleString("en-US")}${suffix}`);
-          if (progress < 1) requestAnimationFrame(tick);
+          if (progress < 1) frameId = requestAnimationFrame(tick);
         };
 
-        requestAnimationFrame(tick);
+        frameId = requestAnimationFrame(tick);
+
+        // requestAnimationFrame is paused while a tab is backgrounded, which would
+        // otherwise strand the counter on a partial number (e.g. "960+" instead of
+        // "10,000+"). This guarantees the real figure is shown regardless.
+        settleId = setTimeout(() => setDisplay(finalValue), duration + 150);
+
         observer.disconnect();
       },
       { threshold: 0.4 }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (frameId !== undefined) cancelAnimationFrame(frameId);
+      if (settleId !== undefined) clearTimeout(settleId);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

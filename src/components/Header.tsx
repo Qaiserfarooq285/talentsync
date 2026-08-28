@@ -120,12 +120,6 @@ export default function Header() {
 
           <div className="hidden lg:flex shrink-0 items-center gap-3">
             <a
-              href="#contact"
-              className="whitespace-nowrap rounded bg-brand-orange px-5 py-[11px] text-sm font-semibold text-white transition-colors hover:bg-brand-orange-hover"
-            >
-              Request manpower
-            </a>
-            <a
               href="/TalentSync_Company_Profile_Updated.docx"
               target="_blank"
               rel="noopener noreferrer"

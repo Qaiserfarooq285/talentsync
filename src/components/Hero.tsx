@@ -11,43 +11,52 @@ export default function Hero() {
       className="relative flex flex-col overflow-hidden bg-brand-blue-deep"
       style={{ minHeight: "calc(100dvh - var(--header-h))" }}
     >
-      {/* Photo band — height is capped per breakpoint (and further capped on short windows) so the crop never over-zooms */}
-      <div className="relative" style={{ height: "var(--hero-band-h)" }}>
+      {/*
+        The photo is a wide group shot, so a tall narrow crop would only show one
+        or two people. On phones it therefore sits as a banner band (near the
+        image's own 16:9 ratio, so the whole crew stays visible); from md up it
+        becomes a full-bleed background the text floats over.
+      */}
+      <div className="relative h-[168px] w-full shrink-0 sm:h-[250px] md:absolute md:inset-0 md:h-auto">
         <Image
-          src="/images/hero-bg-2.png"
+          src="/images/hero-bg-2.jpg"
           alt="The full range of manpower TalentSync deploys — operators, engineers, technical staff and skilled tradesmen on site"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[center_18%] sm:object-[center_22%] lg:object-[center_28%]"
+          className="object-cover object-center md:object-[center_28%]"
         />
         <div
-          className="pointer-events-none absolute inset-0"
+          className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(100deg, rgba(11,32,55,.92) 0%, rgba(11,32,55,.72) 34%, rgba(11,60,116,.42) 62%, rgba(11,60,116,.18) 100%)",
+              "linear-gradient(180deg, rgba(11,32,55,.35) 0%, rgba(11,32,55,.30) 55%, rgba(11,32,55,.85) 100%)",
           }}
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
-          style={{ background: "linear-gradient(180deg, transparent, var(--color-brand-blue-deep))" }}
+          className="absolute inset-0 hidden md:block"
+          style={{
+            background:
+              "linear-gradient(100deg, rgba(11,32,55,.90) 0%, rgba(11,32,55,.74) 38%, rgba(11,60,116,.48) 68%, rgba(11,60,116,.26) 100%)",
+          }}
           aria-hidden
         />
       </div>
 
-      <div
-        className="relative px-5 pb-3 sm:pb-6 md:px-14"
-        style={{ marginTop: "calc(-1 * var(--hero-overlap))" }}
-      >
-        <div className="mx-auto max-w-[1440px]">
-          <div className="max-w-[640px]" style={{ paddingTop: "var(--hero-pt-inner)" }}>
+      {/* Content: below the band on phones, overlaid on the photo from md up. */}
+      <div className="relative flex flex-1 items-center px-5 py-5 md:px-14 md:py-8">
+        <div className="mx-auto w-full max-w-[1440px]">
+          <div className="max-w-[640px]">
             <h1 className="text-[clamp(24px,4.4vw,54px)] font-bold leading-[1.1] tracking-[-.02em] text-white [text-shadow:0_2px_18px_rgba(0,0,0,.45)]">
               Your Trusted Partner for{" "}
               <span className="text-brand-orange-light">Skilled Manpower Solutions</span>{" "}
               <span className="whitespace-nowrap">
                 Across{" "}
-                <TypewriterWords words={["Africa", "GCC", "& Beyond"]} className="text-brand-orange-light" />
+                <TypewriterWords
+                  words={["Africa", "GCC", "& Beyond"]}
+                  className="text-brand-orange-light"
+                />
               </span>
             </h1>
 
@@ -100,7 +109,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="relative mt-auto pt-1">
+      <div className="relative">
         <StatStrip />
       </div>
     </section>

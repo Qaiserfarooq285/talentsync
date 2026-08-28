@@ -18,6 +18,10 @@ export default function TypewriterWords({
   const reducedMotion =
     typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Reserve the width of the longest word so the headline's line breaks never
+  // shift while the text types in and deletes out.
+  const longest = words.reduce((a, b) => (b.length > a.length ? b : a), "");
+
   useEffect(() => {
     if (reducedMotion) return;
 
@@ -57,13 +61,23 @@ export default function TypewriterWords({
   }, []);
 
   if (reducedMotion) {
-    return <span className={className}>{words.join(" · ")}</span>;
+    return <span className={className}>{longest}</span>;
   }
 
   return (
-    <span className={`${className} inline-block min-w-[1ch] whitespace-nowrap`}>
-      {text}
-      <span className="ml-0.5 inline-block w-[2px] animate-pulse bg-current align-middle" style={{ height: "0.85em" }} />
+    <span className={`${className} inline-grid whitespace-nowrap`}>
+      {/* Invisible sizer: holds the full width of the longest word at all times. */}
+      <span className="invisible col-start-1 row-start-1" aria-hidden="true">
+        {longest}
+      </span>
+      <span className="col-start-1 row-start-1 justify-self-start" aria-label={longest}>
+        {text}
+        <span
+          className="ml-0.5 inline-block w-[2px] animate-pulse bg-current align-middle"
+          style={{ height: "0.85em" }}
+          aria-hidden="true"
+        />
+      </span>
     </span>
   );
 }

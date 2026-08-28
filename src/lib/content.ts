@@ -117,15 +117,15 @@ export const qualityStandards = [
 ];
 
 export const industries = [
-  { name: "Construction & Infrastructure", image: "/images/industry-construction.png" },
-  { name: "Oil & Gas", image: "/images/industry-oil-gas.png" },
-  { name: "Heavy Equipment & Mining", image: "/images/industry-mining.png" },
-  { name: "Engineering & Technical Services", image: "/images/industry-engineering.png" },
-  { name: "Power & Energy", image: "/images/industry-power.png" },
-  { name: "Industrial & Manufacturing", image: "/images/industry-manufacturing.png" },
-  { name: "Logistics & Transportation", image: "/images/industry-logistics.png" },
-  { name: "Marine & Shipbuilding", image: "/images/industry-marine.png" },
-  { name: "Facility Management & Maintenance", image: "/images/industry-facility.png" },
+  { name: "Construction & Infrastructure", image: "/images/industry-construction.jpg" },
+  { name: "Oil & Gas", image: "/images/industry-oil-gas.jpg" },
+  { name: "Heavy Equipment & Mining", image: "/images/industry-mining.jpg" },
+  { name: "Engineering & Technical Services", image: "/images/industry-engineering.jpg" },
+  { name: "Power & Energy", image: "/images/industry-power.jpg" },
+  { name: "Industrial & Manufacturing", image: "/images/industry-manufacturing.jpg" },
+  { name: "Logistics & Transportation", image: "/images/industry-logistics.jpg" },
+  { name: "Marine & Shipbuilding", image: "/images/industry-marine.jpg" },
+  { name: "Facility Management & Maintenance", image: "/images/industry-facility.jpg" },
 ];
 
 export const regionalReachBody =

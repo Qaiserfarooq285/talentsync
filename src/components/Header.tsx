@@ -120,14 +120,6 @@ export default function Header() {
 
           <div className="hidden lg:flex shrink-0 items-center gap-3">
             <a
-              href="/TalentSync_Company_Profile_Updated.docx"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="whitespace-nowrap rounded border border-border-strong px-[18px] py-[10px] text-sm font-semibold text-brand-blue-deep dark:text-brand-blue transition-colors hover:bg-brand-blue-deep/8"
-            >
-              Download profile
-            </a>
-            <a
               href="#contact"
               className="whitespace-nowrap rounded bg-brand-orange px-5 py-[11px] text-sm font-semibold text-white transition-colors hover:bg-brand-orange-hover"
             >
@@ -146,15 +138,6 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-2 lg:hidden">
-            <a
-              href="/TalentSync_Company_Profile_Updated.docx"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden items-center gap-[6px] whitespace-nowrap rounded-[3px] border border-brand-orange/40 bg-brand-orange/10 px-2.5 py-[6px] text-[10px] font-semibold uppercase tracking-[.06em] text-brand-orange-hover dark:text-brand-orange-light sm:inline-flex"
-            >
-              <DownloadIcon />
-              Company Profile
-            </a>
             <ThemeToggle />
             <button
               aria-label="Toggle navigation menu"
@@ -190,9 +173,10 @@ export default function Header() {
                 href="/TalentSync_Company_Profile_Updated.docx"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-11 rounded border border-border-strong px-[18px] py-[10px] text-center text-sm font-semibold text-brand-blue-deep dark:text-brand-blue"
+                className="flex min-h-11 items-center justify-center gap-[7px] rounded border border-brand-orange/40 bg-brand-orange/10 px-[18px] py-[10px] text-center text-sm font-semibold text-brand-orange-hover dark:text-brand-orange-light"
               >
-                Download profile
+                <DownloadIcon />
+                Company Profile
               </a>
               <a
                 href="#contact"

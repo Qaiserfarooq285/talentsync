@@ -6,7 +6,11 @@ const trustedNames = ["Cevahir", "Descon", "Trojan", "Daewoo E&C Iraq", "Khalifa
 
 export default function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden bg-brand-blue-deep">
+    <section
+      id="top"
+      className="relative flex flex-col overflow-hidden bg-brand-blue-deep"
+      style={{ minHeight: "calc(100dvh - var(--header-h))" }}
+    >
       {/* Photo band — height is capped per breakpoint (and further capped on short windows) so the crop never over-zooms */}
       <div className="relative" style={{ height: "var(--hero-band-h)" }}>
         <Image
@@ -96,7 +100,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="relative mt-1 sm:mt-2 md:mt-3">
+      <div className="relative mt-auto pt-1">
         <StatStrip />
       </div>
     </section>

@@ -294,8 +294,9 @@ export const footerLinks = {
 export const founder = {
   name: "Murad Farooq",
   title: "Founder & CEO",
+  photo: "/images/founder-photo.jpg",
   bio: [
-    "Murad founded TalentSync Manpower Services in Fujairah, UAE with a simple goal: give construction, oil & gas, and industrial clients a manpower partner they can trust to deliver on time, every time.",
+    "Murad founded TalentSync Manpower Services in Fujairah, UAE in 2020 with a simple goal: give construction, oil & gas, and industrial clients a manpower partner they can trust to deliver on time, every time.",
     "With hands-on field experience across the region's toughest mobilisation projects, he leads TalentSync's sourcing, screening, and client relationships personally — from first enquiry to on-site handover.",
   ],
   email: contact.email,

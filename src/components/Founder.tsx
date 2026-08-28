@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Reveal from "./Reveal";
 import { founder } from "@/lib/content";
 
@@ -7,12 +8,14 @@ export default function Founder() {
       <div className="mx-auto max-w-[1200px]">
         <Reveal>
           <div className="grid gap-6 rounded-[5px] border border-border bg-surface-alt p-5 transition-shadow duration-150 hover:shadow-[0_8px_28px_rgba(11,60,116,.08)] md:grid-cols-[160px_1fr] md:gap-8 md:p-7">
-            <div className="mx-auto flex h-[130px] w-[130px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-surface ring-1 ring-border md:mx-0 md:h-[150px] md:w-[150px]">
-              <div className="flex h-full w-full items-center justify-center bg-[repeating-linear-gradient(45deg,#eef2f7,#eef2f7_8px,#e4e9ef_8px,#e4e9ef_16px)]">
-                <span className="px-4 text-center text-[10px] font-medium text-text-subtle">
-                  Photo placeholder — headshot
-                </span>
-              </div>
+            <div className="relative mx-auto h-[130px] w-[130px] shrink-0 overflow-hidden rounded-full bg-surface ring-1 ring-border md:mx-0 md:h-[150px] md:w-[150px]">
+              <Image
+                src={founder.photo}
+                alt={`${founder.name}, ${founder.title} of TalentSync Manpower Services`}
+                fill
+                sizes="150px"
+                className="object-cover"
+              />
             </div>
 
             <div>

@@ -1,7 +1,30 @@
+import Image from "next/image";
 import Reveal from "./Reveal";
-import { clients, networkParagraphs } from "@/lib/content";
+import { clients, networkParagraphs, type Client } from "@/lib/content";
+
+function ClientChip({ client }: { client: Client }) {
+  return (
+    <div className="flex h-[74px] items-center justify-center rounded bg-white px-4 transition-transform duration-150 hover:-translate-y-0.5">
+      {client.logo ? (
+        <Image
+          src={client.logo}
+          alt={`${client.name} logo`}
+          width={120}
+          height={44}
+          className="max-h-[44px] w-auto object-contain"
+        />
+      ) : (
+        <span className="text-center text-[13px] font-bold leading-tight text-brand-blue-ink">
+          {client.name}
+        </span>
+      )}
+    </div>
+  );
+}
 
 export default function TrustedBy() {
+  const marqueeClients = clients.filter((c) => c.logo);
+
   return (
     <section className="bg-brand-blue-ink px-5 py-14 md:px-14 md:py-20">
       <div className="mx-auto max-w-[1440px]">
@@ -23,30 +46,16 @@ export default function TrustedBy() {
           </Reveal>
 
           <Reveal>
-            <div className="grid grid-cols-3 gap-px overflow-hidden rounded border border-white/12 bg-white/12 sm:grid-cols-4">
-              {clients.slice(0, 8).map((client) => (
-                <div
-                  key={client.name}
-                  className="flex flex-col items-center justify-center gap-2 bg-brand-blue-ink p-4 text-center transition-colors duration-150 hover:bg-white/[.06] md:p-[20px_14px]"
-                >
-                  <span
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-[11px] font-bold text-white transition-transform duration-150 hover:scale-110"
-                    style={{ background: client.color }}
-                    aria-hidden
-                  >
-                    {client.initials}
-                  </span>
-                  <span className="text-[13.5px] font-semibold leading-tight text-white/86">
-                    {client.name}
-                  </span>
-                </div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {clients.slice(0, 9).map((client) => (
+                <ClientChip key={client.name} client={client} />
               ))}
             </div>
           </Reveal>
         </div>
 
         <Reveal className="mt-10">
-          <div className="group relative overflow-hidden rounded border border-white/12 py-5">
+          <div className="group relative overflow-hidden py-2">
             <div
               className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-brand-blue-ink to-transparent"
               aria-hidden
@@ -55,19 +64,10 @@ export default function TrustedBy() {
               className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-brand-blue-ink to-transparent"
               aria-hidden
             />
-            <div className="flex w-max animate-[marquee_28s_linear_infinite] gap-10 group-hover:[animation-play-state:paused] motion-reduce:animate-none">
-              {[...clients, ...clients].map((client, i) => (
-                <div key={`${client.name}-${i}`} className="flex shrink-0 items-center gap-2.5">
-                  <span
-                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white"
-                    style={{ background: client.color }}
-                    aria-hidden
-                  >
-                    {client.initials}
-                  </span>
-                  <span className="whitespace-nowrap text-[13.5px] font-semibold text-white/70">
-                    {client.name}
-                  </span>
+            <div className="flex w-max animate-[marquee_36s_linear_infinite] gap-3 group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+              {[...marqueeClients, ...marqueeClients].map((client, i) => (
+                <div key={`${client.name}-${i}`} className="w-[150px] shrink-0">
+                  <ClientChip client={client} />
                 </div>
               ))}
             </div>

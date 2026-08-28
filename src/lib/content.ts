@@ -175,41 +175,32 @@ export const projectHighlights = [
   },
 ];
 
-const logoColors = ["#1266C4", "#F5751A", "#0B3C74", "#3C4D61"];
+export type Client = {
+  name: string;
+  /** Official logo supplied by / sourced from the client. Falls back to a name chip when absent. */
+  logo?: string;
+};
 
-function initialsOf(name: string) {
-  const words = name.replace(/&/g, "").split(" ").filter(Boolean);
-  return words
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-}
-
-const clientNames = [
-  "Cevahir",
-  "LIBCO",
-  "EN-EZ",
-  "Ecotech",
-  "Iris Construction",
-  "Descon",
-  "BST",
-  "Trojan",
-  "Al Ryum",
-  "WME",
-  "UEP",
-  "Al Jamal",
-  "Global Builders",
-  "Express",
-  "Khalifa Holding Group",
-  "Daewoo E&C Iraq",
+export const clients: Client[] = [
+  { name: "Cevahir", logo: "/images/clients/cevahir.png" },
+  { name: "EN-EZ", logo: "/images/clients/en-ez.png" },
+  { name: "Descon", logo: "/images/clients/descon.png" },
+  { name: "Trojan", logo: "/images/clients/trojan.png" },
+  { name: "Daewoo E&C", logo: "/images/clients/daewoo.png" },
+  { name: "Khalifa Holding Group", logo: "/images/clients/khalifa-holding.png" },
+  { name: "Ecotech", logo: "/images/clients/ecotech.png" },
+  { name: "Global Builders", logo: "/images/clients/global-builders.png" },
+  { name: "Al Jamal", logo: "/images/clients/al-jamal.png" },
+  { name: "Al Ryum", logo: "/images/clients/al-ryum.png" },
+  { name: "UEP", logo: "/images/clients/uep.png" },
+  { name: "SHAR", logo: "/images/clients/shar.png" },
+  { name: "Thabat", logo: "/images/clients/thabat.png" },
+  { name: "LIBCO" },
+  { name: "Iris Construction" },
+  { name: "BST" },
+  { name: "WME" },
+  { name: "Express" },
 ];
-
-export const clients = clientNames.map((name, i) => ({
-  name,
-  initials: initialsOf(name),
-  color: logoColors[i % logoColors.length],
-}));
 
 export const networkParagraphs = [
   "TalentSync Manpower Services has experience working with established companies and contractors across construction, infrastructure, oil & gas, and engineering sectors. Our previous clients and business partners include the companies listed here.",

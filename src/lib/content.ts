@@ -207,8 +207,9 @@ export const heroClients = [
   { name: "Cevahir", logo: "/images/clients/white/cevahir.png" },
   { name: "Descon", logo: "/images/clients/white/descon.png" },
   { name: "Trojan", logo: "/images/clients/white/trojan.png" },
-  { name: "Daewoo E&C", logo: "/images/clients/white/daewoo.png" },
-  { name: "Khalifa Holding Group", logo: "/images/clients/white/khalifa-holding.png" },
+  { name: "Ecotech", logo: "/images/clients/white/ecotech.png" },
+  { name: "Thabat", logo: "/images/clients/white/thabat.png" },
+  { name: "SHAR", logo: "/images/clients/white/shar.png" },
 ];
 
 export const networkParagraphs = [

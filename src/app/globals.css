@@ -1,26 +1,179 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-brand-blue-deep: #0b3c74;
+  --color-brand-blue: #1266c4;
+  --color-brand-blue-ink: #12263e;
+  --color-brand-navy-900: #0a1f38;
+  --color-brand-orange: #f5751a;
+  --color-brand-orange-hover: #e06710;
+  --color-brand-orange-light: #ffa04d;
+  --color-brand-orange-pale: #ffd0a8;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f4f7fb;
+  --color-surface-input: #f8fafc;
+  --color-border: #e4e9ef;
+  --color-border-strong: #c4cfdb;
+  --color-border-input: #dde4ec;
+  --color-text-primary: #12263e;
+  --color-text-strong: #3c4d61;
+  --color-text-body: #55677b;
+  --color-text-muted: #61717f;
+  --color-text-subtle: #6b7c90;
+  --color-text-subtle-2: #8b9aab;
+  --color-error: #c4361a;
+}
+
+.dark {
+  --color-surface: #101d30;
+  --color-surface-alt: #0b1a2c;
+  --color-surface-input: #16273d;
+  --color-border: #223350;
+  --color-border-strong: #34486a;
+  --color-border-input: #2c405f;
+  --color-text-primary: #edf1f6;
+  --color-text-strong: #cdd8e6;
+  --color-text-body: #a9b7c9;
+  --color-text-muted: #9aa9bd;
+  --color-text-subtle: #8695ab;
+  --color-text-subtle-2: #71829a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-blue-deep: var(--color-brand-blue-deep);
+  --color-brand-blue: var(--color-brand-blue);
+  --color-brand-blue-ink: var(--color-brand-blue-ink);
+  --color-brand-navy-900: var(--color-brand-navy-900);
+  --color-brand-orange: var(--color-brand-orange);
+  --color-brand-orange-hover: var(--color-brand-orange-hover);
+  --color-brand-orange-light: var(--color-brand-orange-light);
+  --color-brand-orange-pale: var(--color-brand-orange-pale);
+  --color-surface: var(--color-surface);
+  --color-surface-alt: var(--color-surface-alt);
+  --color-surface-input: var(--color-surface-input);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-border-input: var(--color-border-input);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-strong: var(--color-text-strong);
+  --color-text-body: var(--color-text-body);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-subtle: var(--color-text-subtle);
+  --color-text-subtle-2: var(--color-text-subtle-2);
+  --color-error: var(--color-error);
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Hero band/overlap sizing — width-tier defaults (tall viewports: real mobile & tablet devices) */
+:root {
+  --hero-band-h: 210px;
+  --hero-overlap: 70px;
+  --hero-stat-py: 16px;
+  --hero-pt-inner: 16px;
+  --hero-gap-p: 10px;
+  --hero-gap-btns: 14px;
+  --hero-gap-trust: 14px;
+  --hero-gap-trust-pt: 12px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --hero-band-h: 340px;
+    --hero-overlap: 130px;
+    --hero-stat-py: 24px;
+    --hero-pt-inner: 24px;
+    --hero-gap-p: 16px;
+    --hero-gap-btns: 20px;
+    --hero-gap-trust: 24px;
+    --hero-gap-trust-pt: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --hero-band-h: 440px;
+    --hero-overlap: 170px;
+    --hero-stat-py: 34px;
+    --hero-gap-btns: 24px;
+    --hero-gap-trust: 28px;
+    --hero-gap-trust-pt: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --hero-band-h: 520px;
+    --hero-overlap: 200px;
+  }
+}
+
+/* Short-window override: a resized desktop browser (width >= 640) that isn't tall.
+   Deliberately excludes width < 640 so real phones (always tall) are unaffected. */
+@media (min-width: 640px) and (max-height: 760px) {
+  :root {
+    --hero-band-h: 210px;
+    --hero-overlap: 65px;
+    --hero-stat-py: 8px;
+    --hero-pt-inner: 6px;
+    --hero-gap-p: 6px;
+    --hero-gap-btns: 8px;
+    --hero-gap-trust: 8px;
+    --hero-gap-trust-pt: 6px;
+  }
 }

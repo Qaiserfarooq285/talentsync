@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { contact } from "@/lib/content";
 
 export const runtime = "nodejs";
@@ -61,33 +61,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, errors }, { status: 400 });
   }
 
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM, CONTACT_TO } = process.env;
+  const { RESEND_API_KEY, CONTACT_FROM, CONTACT_TO } = process.env;
 
-  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
-    console.error("Contact form: SMTP environment variables are not configured.");
+  if (!RESEND_API_KEY) {
+    console.error("Contact form: RESEND_API_KEY is not configured.");
     return NextResponse.json(
       { ok: false, error: "Email is not configured on the server." },
       { status: 500 }
     );
   }
 
-  const port = Number(SMTP_PORT ?? 587);
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port,
-    secure: port === 465, // 465 = implicit TLS; 587 upgrades via STARTTLS
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
-  });
-
   const rows: [string, string][] = [
     ["Name", data.name ?? ""],
-    ["Company", data.company ?? "—"],
+    ["Company", data.company?.trim() || "—"],
     ["Email", data.email ?? ""],
     ["Phone", data.phone ?? ""],
     ["Role / trade", data.role ?? ""],
     ["Headcount", data.headcount ?? ""],
-    ["Project location", data.location ?? "—"],
-    ["Details", data.details ?? "—"],
+    ["Project location", data.location?.trim() || "—"],
+    ["Details", data.details?.trim() || "—"],
   ];
 
   const text = rows.map(([k, v]) => `${k}: ${v}`).join("\n");
@@ -109,14 +101,26 @@ export async function POST(request: Request) {
     </p>`;
 
   try {
-    await transporter.sendMail({
-      from: SMTP_FROM || SMTP_USER,
-      to: CONTACT_TO || contact.email,
-      replyTo: data.email,          // replying goes straight back to the enquirer
+    const resend = new Resend(RESEND_API_KEY);
+    const { error } = await resend.emails.send({
+      // Must be an address on a domain verified in Resend. Falls back to
+      // Resend's shared sender, which only delivers to your own account email.
+      from: CONTACT_FROM || "TalentSync Website <onboarding@resend.dev>",
+      to: [CONTACT_TO || contact.email],
+      replyTo: data.email!, // replying goes straight back to the enquirer
       subject: `Manpower request — ${data.name} (${data.role}, ${data.headcount})`,
       text,
       html,
     });
+
+    if (error) {
+      console.error("Contact form: Resend rejected the message.", error);
+      return NextResponse.json(
+        { ok: false, error: "Could not send your message. Please email us directly." },
+        { status: 502 }
+      );
+    }
+
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("Contact form: failed to send email.", err);

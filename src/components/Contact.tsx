@@ -41,10 +41,24 @@ export default function Contact() {
     if (Object.keys(validation).length > 0) return;
 
     setStatus("submitting");
+    const form = e.currentTarget;
     try {
-      await new Promise((resolve) => setTimeout(resolve, 900));
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(formData.entries())),
+      });
+      const result = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        // Surface server-side field errors so the user can correct and retry.
+        if (result.errors) setErrors(result.errors);
+        setStatus("error");
+        return;
+      }
+
       setStatus("success");
-      e.currentTarget.reset();
+      form.reset();
     } catch {
       setStatus("error");
     }
@@ -116,6 +130,15 @@ export default function Contact() {
               <Field label="Headcount" name="headcount" type="number" min={1} className={labelClass} inputClass={inputClass} error={errors.headcount} required />
               <Field label="Project location" name="location" className={`${labelClass} sm:col-span-2`} inputClass={inputClass} />
 
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute left-[-9999px] h-0 w-0 opacity-0"
+              />
+
               <div className="flex flex-col gap-1.5 sm:col-span-2">
                 <label htmlFor="details" className={labelClass}>
                   Details
@@ -127,6 +150,20 @@ export default function Contact() {
                   className={`${inputClass} h-[96px] resize-none py-3`}
                 />
               </div>
+
+              {status === "error" && (
+                <div
+                  role="alert"
+                  className="sm:col-span-2 rounded-[3px] border border-error/40 bg-error/10 px-4 py-3 text-[13.5px] text-error"
+                >
+                  Sorry — we couldn&rsquo;t send your requirement. Please check the fields above, or
+                  email us directly at{" "}
+                  <a href={`mailto:${contact.email}`} className="font-semibold underline">
+                    {contact.email}
+                  </a>
+                  .
+                </div>
+              )}
 
               <div className="sm:col-span-2 mt-2 flex flex-col items-start gap-3">
                 <button

@@ -1,8 +1,8 @@
 import Image from "next/image";
 import StatStrip from "./StatStrip";
+import { heroClients } from "@/lib/content";
 import TypewriterWords from "./TypewriterWords";
 
-const trustedNames = ["Cevahir", "Descon", "Trojan", "Daewoo E&C Iraq", "Khalifa Holding"];
 
 export default function Hero() {
   return (
@@ -17,7 +17,7 @@ export default function Hero() {
         image's own 16:9 ratio, so the whole crew stays visible); from md up it
         becomes a full-bleed background the text floats over.
       */}
-      <div className="relative h-[168px] w-full shrink-0 sm:h-[250px] md:absolute md:inset-0 md:h-auto">
+      <div className="relative h-[156px] w-full shrink-0 sm:h-[250px] md:absolute md:inset-0 md:h-auto">
         <Image
           src="/images/hero-bg-2.jpg"
           alt="The full range of manpower TalentSync deploys — operators, engineers, technical staff and skilled tradesmen on site"
@@ -94,13 +94,19 @@ export default function Hero() {
               <span className="text-[10.5px] font-semibold uppercase tracking-[.08em] text-white/60 sm:text-[11px]">
                 Trusted by
               </span>
-              <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1.5 sm:mt-2.5 sm:gap-x-6 sm:gap-y-2">
-                {trustedNames.map((name) => (
+              <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-2 sm:mt-3 sm:gap-x-8 sm:gap-y-3">
+                {heroClients.map((client) => (
                   <span
-                    key={name}
-                    className="text-[12.5px] font-semibold text-white/85 transition-colors hover:text-white sm:text-[13.5px]"
+                    key={client.name}
+                    className="flex h-[24px] w-[72px] items-center justify-center sm:h-[34px] sm:w-[100px]"
                   >
-                    {name}
+                    <Image
+                      src={client.logo}
+                      alt={`${client.name} logo`}
+                      width={100}
+                      height={34}
+                      className="max-h-full max-w-full object-contain opacity-80 transition-opacity duration-150 hover:opacity-100"
+                    />
                   </span>
                 ))}
               </div>

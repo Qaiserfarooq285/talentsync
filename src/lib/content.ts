@@ -202,6 +202,15 @@ export const clients: Client[] = [
   { name: "Express" },
 ];
 
+/** Logos rendered white for the hero's trust row, which sits on the dark photo. */
+export const heroClients = [
+  { name: "Cevahir", logo: "/images/clients/white/cevahir.png" },
+  { name: "Descon", logo: "/images/clients/white/descon.png" },
+  { name: "Trojan", logo: "/images/clients/white/trojan.png" },
+  { name: "Daewoo E&C", logo: "/images/clients/white/daewoo.png" },
+  { name: "Khalifa Holding Group", logo: "/images/clients/white/khalifa-holding.png" },
+];
+
 export const networkParagraphs = [
   "TalentSync Manpower Services has experience working with established companies and contractors across construction, infrastructure, oil & gas, and engineering sectors. Our previous clients and business partners include the companies listed here.",
   "These partnerships span multiple industries and geographies, reflecting the range of projects TalentSync supports — from large-scale road and civil infrastructure works to oil field operations and commercial construction. Each engagement strengthens our regional talent pool and deepens our understanding of client-specific mobilisation requirements.",

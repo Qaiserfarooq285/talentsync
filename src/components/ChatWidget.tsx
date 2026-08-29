@@ -7,13 +7,13 @@ import { contact } from "@/lib/content";
 type Message = { role: "user" | "assistant"; content: string };
 
 const GREETING =
-  "I'm the TalentSync assistant. Ask me about our services, the countries we cover, or how to request manpower for your project.";
+  "I'm the TalentSync assistant. Ask me about our services, the countries we cover, or how to request manpower.";
 
 const SUGGESTIONS = [
-  "What services do you offer?",
-  "Which countries do you cover?",
-  "How do I request workers?",
-  "How does your process work?",
+  "Your services?",
+  "Countries covered?",
+  "How do I hire?",
+  "Your process?",
 ];
 
 const TEASER_DELAY_MS = 2600;
@@ -179,7 +179,7 @@ export default function ChatWidget() {
   return (
     <>
       {/* ---------------- Launcher ---------------- */}
-      <div className="fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-3 print:hidden">
+      <div className="fixed bottom-4 right-4 z-[60] flex flex-col items-end gap-3 sm:bottom-5 sm:right-5 print:hidden">
         {teaser && !open && (
           <div className="animate-chat-bubble-in relative max-w-[248px] rounded-2xl rounded-br-md bg-surface px-4 py-3 shadow-[0_10px_34px_rgba(11,60,116,.20)] ring-1 ring-border">
             <button
@@ -209,7 +209,7 @@ export default function ChatWidget() {
           aria-expanded={open}
           aria-controls="talentsync-chat-panel"
           aria-label={open ? "Close the assistant" : "Open the TalentSync assistant"}
-          className="relative flex h-[58px] w-[58px] items-center justify-center rounded-full bg-brand-blue-deep shadow-[0_10px_30px_rgba(11,60,116,.42)] outline-none transition-transform duration-150 hover:scale-105 focus-visible:ring-4 focus-visible:ring-brand-orange/50 active:scale-95"
+          className="relative flex h-[52px] w-[52px] items-center justify-center rounded-full bg-brand-blue-deep sm:h-[58px] sm:w-[58px] shadow-[0_10px_30px_rgba(11,60,116,.42)] outline-none transition-transform duration-150 hover:scale-105 focus-visible:ring-4 focus-visible:ring-brand-orange/50 active:scale-95"
         >
           {!open && (
             <span
@@ -241,12 +241,12 @@ export default function ChatWidget() {
           ref={panelRef}
           role="dialog"
           aria-label="TalentSync assistant"
-          className="animate-chat-pop fixed inset-x-3 bottom-[92px] z-[60] flex max-h-[min(620px,calc(100dvh-120px))] flex-col overflow-hidden rounded-2xl bg-surface shadow-[0_24px_70px_rgba(10,31,56,.32)] ring-1 ring-border sm:inset-x-auto sm:right-5 sm:w-[386px] print:hidden"
+          className="animate-chat-pop fixed inset-x-3 bottom-[80px] z-[60] flex h-[min(56dvh,420px)] flex-col overflow-hidden rounded-2xl bg-surface shadow-[0_24px_70px_rgba(10,31,56,.32)] ring-1 ring-border sm:inset-x-auto sm:bottom-[92px] sm:right-5 sm:h-auto sm:max-h-[min(620px,calc(100dvh-120px))] sm:w-[386px] print:hidden"
         >
           {/* Header */}
-          <div className="flex items-center gap-3 bg-brand-blue-deep px-4 py-3.5">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
-              <BotAvatar size={28} />
+          <div className="flex items-center gap-2.5 bg-brand-blue-deep px-3.5 py-2.5 sm:gap-3 sm:px-4 sm:py-3.5">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 sm:h-10 sm:w-10">
+              <BotAvatar size={26} />
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-[14.5px] font-bold text-white">TalentSync Assistant</p>
@@ -270,7 +270,7 @@ export default function ChatWidget() {
           {/* Messages */}
           <div
             ref={scrollRef}
-            className="flex-1 overflow-y-auto bg-surface-alt px-4 py-4"
+            className="flex-1 overflow-y-auto bg-surface-alt px-3.5 py-3.5 sm:px-4 sm:py-4"
             aria-live="polite"
             aria-atomic="false"
           >
@@ -310,7 +310,7 @@ export default function ChatWidget() {
                       key={s}
                       type="button"
                       onClick={() => send(s)}
-                      className="rounded-full border border-border-strong bg-surface px-3 py-1.5 text-[12.5px] font-medium text-text-strong transition-colors hover:border-brand-orange hover:text-brand-orange"
+                      className="rounded-full border border-border-strong bg-surface px-2.5 py-1 text-[12px] font-medium text-text-strong transition-colors hover:border-brand-orange hover:text-brand-orange sm:px-3 sm:py-1.5 sm:text-[12.5px]"
                     >
                       {s}
                     </button>
@@ -326,7 +326,7 @@ export default function ChatWidget() {
               e.preventDefault();
               send(input);
             }}
-            className="flex items-end gap-2 border-t border-border bg-surface px-3 py-3"
+            className="flex items-end gap-2 border-t border-border bg-surface px-2.5 py-2.5 sm:px-3 sm:py-3"
           >
             <textarea
               ref={inputRef}
@@ -376,7 +376,7 @@ function Bubble({ role, children }: { role: "user" | "assistant"; children: Reac
         </span>
       )}
       <div
-        className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-[13.8px] leading-[1.55] ${
+        className={`max-w-[82%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-[13.2px] leading-[1.5] sm:px-3.5 sm:py-2.5 sm:text-[13.8px] ${
           isUser
             ? "rounded-br-md bg-brand-blue-deep text-white"
             : "rounded-bl-md bg-surface text-text-strong ring-1 ring-border"

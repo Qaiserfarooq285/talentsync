@@ -282,9 +282,10 @@ const html = `<!doctype html>
   <h2>Clients &amp; Partners</h2><div class="rule"></div>
   <p>${esc(c.networkParagraphs[0])}</p>
   <div class="logos block">
-    ${c.clients.map((cl) => cl.logo
-      ? `<div class="logo"><img src="${IMG}/clients/${cl.logo.split("/").pop()}"></div>`
-      : `<div class="logo"><span>${esc(cl.name)}</span></div>`).join("")}
+    ${c.clients
+      .filter((cl) => cl.logo)
+      .map((cl) => `<div class="logo"><img src="${IMG}/clients/${cl.logo.split("/").pop()}"></div>`)
+      .join("")}
   </div>
 
   <div class="sec-label" style="margin-top:3mm">The Difference</div>

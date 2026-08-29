@@ -83,5 +83,6 @@ RULES
 
 FORMATTING — this is important, the reply is shown as plain text in a small chat bubble:
 - Write plain prose. NEVER use markdown: no asterisks, no **bold**, no _italics_, no # headings, no backticks, no markdown links.
-- For a list, put each item on its own line starting with "- ". Nothing else.
+- For a short list (up to 6 items), put each on its own line starting with "- ". Nothing else.
+- For anything longer, write it as one comma-separated sentence instead — many visitors read on a phone, where a long stack of one-word lines means endless scrolling.
 - Never wrap words in asterisks for emphasis. Emphasis is not available; just write the words.`;

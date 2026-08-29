@@ -120,7 +120,8 @@ export default function Header() {
 
           <div className="hidden lg:flex shrink-0 items-center gap-3">
             <a
-              href="/TalentSync_Company_Profile_Updated.docx"
+              href="/TalentSync_Company_Profile.pdf"
+              download
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-[7px] whitespace-nowrap rounded-[3px] border border-brand-orange/40 bg-brand-orange/10 px-[11px] py-[7px] text-[11px] font-semibold uppercase tracking-[.08em] text-brand-orange-hover transition-colors hover:bg-brand-orange/20 dark:text-brand-orange-light"
@@ -164,7 +165,8 @@ export default function Header() {
             ))}
             <div className="mt-2 flex flex-col gap-2">
               <a
-                href="/TalentSync_Company_Profile_Updated.docx"
+                href="/TalentSync_Company_Profile.pdf"
+                download
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex min-h-11 items-center justify-center gap-[7px] rounded border border-brand-orange/40 bg-brand-orange/10 px-[18px] py-[10px] text-center text-sm font-semibold text-brand-orange-hover dark:text-brand-orange-light"

@@ -55,6 +55,13 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  /**
+   * How far the on-screen keyboard intrudes, and how tall the visible area is.
+   * The panel is position:fixed, so it anchors to the LAYOUT viewport, which
+   * does not shrink when the keyboard opens — without this the keyboard simply
+   * covers the panel on phones.
+   */
+  const [viewport, setViewport] = useState({ inset: 0, height: 0 });
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -103,10 +110,41 @@ export default function ChatWidget() {
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
+  useEffect(() => {
+    const vv = typeof window !== "undefined" ? window.visualViewport : null;
+    if (!open || !vv) return;
+
+    function update() {
+      const v = window.visualViewport;
+      if (!v) return;
+      // Bottom of the layout viewport that is currently hidden (keyboard, and
+      // on iOS the collapsing browser chrome).
+      const inset = Math.max(0, window.innerHeight - v.height - v.offsetTop);
+      setViewport({ inset: Math.round(inset), height: Math.round(v.height) });
+    }
+
+    update();
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+    };
+  }, [open]);
+
+  // Keep the latest message visible when the keyboard pushes the panel up.
+  useEffect(() => {
+    if (!viewport.inset) return;
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  }, [viewport.inset]);
+
   useEffect(() => () => abortRef.current?.abort(), []);
 
   function openPanel() {
     dismissTeaser();
+    // Start from a clean position; the visualViewport effect corrects it on mount.
+    setViewport({ inset: 0, height: 0 });
     setOpen(true);
   }
 
@@ -241,7 +279,20 @@ export default function ChatWidget() {
           ref={panelRef}
           role="dialog"
           aria-label="TalentSync assistant"
-          className="animate-chat-pop fixed inset-x-3 bottom-[80px] z-[60] flex h-[min(56dvh,420px)] flex-col overflow-hidden rounded-2xl bg-surface shadow-[0_24px_70px_rgba(10,31,56,.32)] ring-1 ring-border sm:inset-x-auto sm:bottom-[92px] sm:right-5 sm:h-auto sm:max-h-[min(620px,calc(100dvh-120px))] sm:w-[386px] print:hidden"
+          className="animate-chat-pop fixed inset-x-3 bottom-[80px] z-[60] flex h-[min(56dvh,420px)] flex-col overflow-hidden rounded-2xl bg-surface shadow-[0_24px_70px_rgba(10,31,56,.32)] ring-1 ring-border transition-[bottom,height] duration-200 ease-out motion-reduce:transition-none sm:inset-x-auto sm:bottom-[92px] sm:right-5 sm:h-[min(540px,calc(100dvh-150px))] sm:w-[386px] print:hidden"
+          style={
+            viewport.inset > 0
+              ? {
+                  // Sit just above the keyboard, and shrink to the space left so
+                  // the header stays on screen and the messages keep scrolling.
+                  // This uses `bottom` rather than a transform because the
+                  // chat-pop entry animation has fill-mode:both and would
+                  // otherwise override any transform set here.
+                  bottom: `${viewport.inset + 12}px`,
+                  height: `${Math.max(220, viewport.height - 84)}px`,
+                }
+              : undefined
+          }
         >
           {/* Header */}
           <div className="flex items-center gap-2.5 bg-brand-blue-deep px-3.5 py-2.5 sm:gap-3 sm:px-4 sm:py-3.5">

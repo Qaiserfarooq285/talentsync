@@ -68,6 +68,24 @@ const html = `<!doctype html>
   .cover-meta{margin-top:9mm;font-size:9.5pt;color:rgba(255,255,255,.72);display:flex;gap:7mm;flex-wrap:wrap}
   .cover-meta b{color:var(--orange-l);font-weight:600}
 
+.hero-band{position:relative;height:44mm;border-radius:3mm;overflow:hidden;margin-bottom:7mm}
+  .hero-band img{width:100%;height:100%;object-fit:cover;object-position:center 32%}
+  .hero-band .veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,60,116,.88) 0%,rgba(11,60,116,.55) 45%,rgba(11,60,116,.10) 100%)}
+  .hero-band .cap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 8mm;color:#fff}
+  .hero-band .cap .k{font-size:8pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--orange-l)}
+  .hero-band .cap .t{font-size:15pt;font-weight:800;margin-top:2mm;line-height:1.2;max-width:105mm}
+
+  .split{display:grid;grid-template-columns:1fr 62mm;gap:6mm;align-items:start}
+  .split-img{border-radius:3mm;overflow:hidden;height:72mm}
+  .split-img img{width:100%;height:100%;object-fit:cover}
+
+  .map-wrap{background:var(--alt);border-radius:3mm;padding:3mm;text-align:center}
+  .map-wrap img{width:100%;height:36mm;object-fit:contain}
+
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;margin-top:5mm}
+  .strip div{height:24mm;border-radius:2.5mm;overflow:hidden}
+  .strip img{width:100%;height:100%;object-fit:cover}
+
   /* ---- shared ---- */
   .sec-label{font-size:8.5pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
   h2{font-size:19pt;font-weight:800;color:var(--ink);margin-top:3mm;letter-spacing:-.3pt}
@@ -170,7 +188,10 @@ const html = `<!doctype html>
 <section class="page">
   <div class="sec-label">About Us</div>
   <h2>Who We Are</h2><div class="rule"></div>
-  <div class="block stack">${c.aboutParagraphs.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
+  <div class="split block">
+    <div class="stack">${c.aboutParagraphs.map((p) => `<p>${esc(p)}</p>`).join("")}</div>
+    <div class="split-img"><img src="${IMG}/industry-construction.jpg"></div>
+  </div>
 
   <div class="block">
     <div class="vm"><h3>Our Vision</h3><p style="margin-top:2mm">${esc(c.vision)}</p></div>
@@ -188,7 +209,14 @@ const html = `<!doctype html>
 
 <!-- 3 VALUES + SERVICES -->
 <section class="page">
-  <div class="sec-label">What We Stand For</div>
+  <div class="hero-band">
+    <img src="${IMG}/industry-engineering.jpg">
+    <div class="veil"></div>
+    <div class="cap">
+      <div class="k">What We Stand For</div>
+      <div class="t">Vetted people, delivered on time</div>
+    </div>
+  </div>
   <h2>Our Core Values</h2><div class="rule"></div>
   <div class="grid3 block">
     ${c.coreValues.map((v) => `<div class="card alt"><h3 style="font-size:10pt">${esc(v.title)}</h3><p>${esc(v.body)}</p></div>`).join("")}
@@ -227,7 +255,8 @@ const html = `<!doctype html>
 <section class="page">
   <div class="sec-label">Coverage</div>
   <h2>Regional Reach</h2><div class="rule"></div>
-  <p class="block">${esc(c.regionalReachBody)}</p>
+  <p>${esc(c.regionalReachBody)}</p>
+  <div class="map-wrap block" style="margin-top:5mm"><img src="${IMG}/region-map.svg"></div>
   <div class="regions block">
     <div class="region">
       <h3>Africa &middot; ${c.africaCountries.length} countries</h3>
@@ -286,7 +315,13 @@ const html = `<!doctype html>
     </div>
   </div>
 
-  <div class="cta">
+  <div class="strip">
+    <div><img src="${IMG}/industry-oil-gas.jpg"></div>
+    <div><img src="${IMG}/industry-mining.jpg"></div>
+    <div><img src="${IMG}/industry-logistics.jpg"></div>
+  </div>
+
+  <div class="cta" style="margin-top:6mm">
     <h3>Ready to mobilise your team?</h3>
     <p>${esc(c.contactIntro)}</p>
     <div class="cta-rows">
@@ -318,6 +353,7 @@ execFileSync(
   { stdio: "ignore" }
 );
 
-unlinkSync(TMP_HTML);
+// PROFILE_KEEP_HTML=1 leaves the intermediate page behind for layout debugging.
+if (!process.env.PROFILE_KEEP_HTML) unlinkSync(TMP_HTML);
 unlinkSync(TMP_MJS);
 console.log(`Wrote ${OUT}`);

@@ -78,7 +78,11 @@ export async function POST(request: Request) {
         // gpt-oss is a reasoning model and its hidden reasoning is billed against
         // max_tokens, so keep the thinking short and leave room for the answer.
         reasoning_effort: "low",
-        max_tokens: 1200,
+        // Groq's free tier reserves the FULL max_tokens against its 8k
+        // tokens-per-minute budget on every call, not just what the reply uses.
+        // Replies here are a few sentences, so a tight cap roughly doubles how
+        // many visitors can be served per minute.
+        max_tokens: 500,
         stream: true,
       }),
     });
@@ -90,6 +94,19 @@ export async function POST(request: Request) {
   if (!upstream.ok || !upstream.body) {
     const detail = await upstream.text().catch(() => "");
     console.error("Chat: Groq returned an error.", upstream.status, detail.slice(0, 500));
+
+    // Groq's free tier has a tokens-per-minute ceiling. Say so plainly rather
+    // than implying the assistant is broken, and pass on its retry hint.
+    if (upstream.status === 429) {
+      const wait = detail.match(/try again in ([\d.]+)s/)?.[1];
+      const secs = wait ? Math.ceil(Number(wait)) : null;
+      return bad(
+        secs
+          ? `I'm handling a few other visitors right now — try again in about ${secs} seconds.`
+          : "I'm handling a few other visitors right now — please try again in a moment.",
+        429
+      );
+    }
     return bad("The assistant is unavailable right now. Please try again.", 502);
   }
 

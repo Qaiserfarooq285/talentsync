@@ -19,6 +19,35 @@ const SUGGESTIONS = [
 const TEASER_DELAY_MS = 2600;
 const TEASER_KEY = "ts-chat-teaser-seen";
 
+/**
+ * The model is told to write plain text, but reasoning models slip into markdown
+ * anyway. Stripping it here means stray asterisks can never reach the bubble.
+ */
+function toPlainText(text: string) {
+  return (
+    text
+      // ```code fences``` -> just the contents
+      .replace(/```[a-z]*\n?([\s\S]*?)```/gi, "$1")
+      .replace(/`([^`]+)`/g, "$1")
+      // **bold** / __bold__ / *italic* / _italic_
+      .replace(/\*\*([^*]+)\*\*/g, "$1")
+      .replace(/__([^_]+)__/g, "$1")
+      .replace(/(^|[\s(])\*([^*\n]+)\*(?=[\s.,!?)]|$)/g, "$1$2")
+      .replace(/(^|[\s(])_([^_\n]+)_(?=[\s.,!?)]|$)/g, "$1$2")
+      // [label](url) -> label
+      .replace(/\[([^\]]+)\]\((?:[^)]+)\)/g, "$1")
+      // ### headings, and bullet markers of every flavour
+      .replace(/^#{1,6}\s+/gm, "")
+      .replace(/^\s*[-*+•]\s+/gm, "- ")
+      // any leftover emphasis asterisks
+      .replace(/\*/g, "")
+      // trailing double-space line breaks, and runs of blank lines
+      .replace(/[ \t]+$/gm, "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim()
+  );
+}
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [teaser, setTeaser] = useState(false);
@@ -119,9 +148,10 @@ export default function ChatWidget() {
           const { done, value } = await reader.read();
           if (done) break;
           acc += decoder.decode(value, { stream: true });
+          const shown = toPlainText(acc);
           setMessages((prev) => {
             const next = [...prev];
-            next[next.length - 1] = { role: "assistant", content: acc };
+            next[next.length - 1] = { role: "assistant", content: shown };
             return next;
           });
         }
